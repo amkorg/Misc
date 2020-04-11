@@ -1,0 +1,22 @@
+import time
+import subprocess
+from pythonping import ping
+
+def wlanconnect():
+  wlan_name ='Maxnet2'
+  # Assuming WiFi name and profile name is the same
+  cmd = "netsh wlan connect name={0} ssid={0}".format(wlan_name)
+  conn = subprocess.run(cmd, capture_output=True, text=True).stdout
+
+def pingtest():
+  op = ping('8.8.8.8', count=1)
+#  print(op.success())
+# returns boolean True or False if ping succeeds or fails, respectively
+  return(op.success())
+
+while(True):
+  time.sleep(30)
+  result=pingtest()
+  print(result)
+  if(result == False):
+    wlanconnect()
